@@ -27,10 +27,11 @@ class FlowerShop:
         print(f"Помилка: квітки '{name}' немає в наявності.")
 
     def show_top_expensive(self, count=3):
-        def get_price(flower):
-            return flower.price
-
-        sorted_flowers = sorted(self.flowers, key=get_price, reverse=True)
+        sorted_flowers = sorted(
+            self.flowers,
+            key=lambda flower: flower.price,
+            reverse=True,
+        )
 
         print(f"\nТоп-{count} найдорожчих квітів:")
         for i, flower in enumerate(sorted_flowers[:count], 1):
@@ -42,6 +43,9 @@ class Bouquet:
         self.items = []
 
     def add_flower(self, flower, count=1):
+        if count <= 0 or count > flower.quantity:
+            print(f"Помилка: недостатньо квітів '{flower.name}' в наявності.")
+            return
         self.items.append((flower, count))
 
     def get_cost(self):
@@ -52,7 +56,7 @@ class Bouquet:
         return total_cost
 
 
-if __name__ == "__main__":
+def main():
     rose = Flower("Троянда", 60, 6, "червоний", 50, 100, 5)
     tulip = Flower("Тюльпан", 40, 5, "жовтий", 25, 200, 3)
     orchid = Flower("Орхідея", 50, 8, "фіолетовий", 120, 20, 10)
@@ -73,3 +77,7 @@ if __name__ == "__main__":
     bouquet.add_flower(orchid, 1)
 
     print(f"\nЗагальна вартість букета: {bouquet.get_cost()} грн")
+
+
+if __name__ == "__main__":
+    main()
